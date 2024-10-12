@@ -72,6 +72,7 @@ public class Main
         System.out.println(obj.toString());
         obj.fromString("5.2..6.9....49.2..........73.6..59..9.86......7.......2..9.3...68...7..3.5...4...");
         System.out.println(obj.toString());
+        System.out.println(obj.isValid(obj.field[0]));
         System.out.println(obj.getEmpty());
     }
 }

@@ -1,3 +1,5 @@
+import java.util.HashSet;
+
 public class Main
 {
     public static class SudokuState
@@ -44,14 +46,21 @@ public class Main
                 }
             }
         }
-        /*static boolean isValid(byte[] t)
+        public boolean isValid(byte[] t)
         {
-            for(byte ti : t)
+            HashSet<Byte> seen = new HashSet<>();
+            for (byte value : t)
             {
-
+                if (value != 0)
+                {
+                    if (!seen.add(value))
+                    {
+                        return false;
+                    }
+                }
             }
-            return false;
-        }*/
+            return true;
+        }
         public int getEmpty()
         {
             return n_puste;
@@ -63,5 +72,6 @@ public class Main
         System.out.println(obj.toString());
         obj.fromString("5.2..6.9....49.2..........73.6..59..9.86......7.......2..9.3...68...7..3.5...4...");
         System.out.println(obj.toString());
+        System.out.println(obj.getEmpty());
     }
 }

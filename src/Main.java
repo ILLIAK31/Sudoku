@@ -10,7 +10,7 @@ public class Main
         {
             field = new byte[n*n][n*n];
             this.n = n;
-            n_puste = n * n * n * n;
+            n_puste = n * n;
         }
         @Override
         public String toString()
@@ -48,6 +48,32 @@ public class Main
         }
         public boolean isValid(byte[] t)
         {
+            /*
+            if (t.length == 0)
+            {
+                return true;
+            }
+            boolean[] visited = new boolean[t.length];
+            for (int i = 0; i < t.length; i++)
+            {
+                visited[i] = false;
+            }
+            for (byte element : t)
+            {
+                int index = element - 1;
+                if (index < 0 || index >= t.length)
+                {
+                    return false;
+                }
+                if (visited[index])
+                {
+                    return false;
+                } else {
+                    visited[index] = true;
+                }
+            }
+            return true;
+            */
             HashSet<Byte> seen = new HashSet<>();
             for (byte value : t)
             {

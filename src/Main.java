@@ -1,6 +1,7 @@
 import sac.State;
 import sac.StateFunction;
 import sac.graph.BestFirstSearch;
+import sac.graph.GraphSearchConfigurator;
 import sac.graph.GraphState;
 import sac.graph.GraphStateImpl;
 
@@ -176,16 +177,43 @@ public class Main
     }
     public static void main(String[] args)
     {
-        SudokuState obj = new SudokuState(3);
-        System.out.println(obj.toString());
-        obj.fromString(".2.....46.....67....6...5.....928.65..............382.5.4....8.3.9..2....6249.37.");
-        System.out.println(obj.toString());
-        System.out.println("Valid : "+obj.isValid()+"\n");
-        obj.setHFunction(new HeurystykaPusteKomorki());
-        BestFirstSearch bfs = new BestFirstSearch();
-        bfs.setInitial(obj);
-        bfs.execute();
-        System.out.println(bfs.getSolutions());
-        // code here
+        String[] sudoku_gen =("................").split("\n\n"); // Generate sudoku (web: QQWing)
+        long avr_time = 0;
+        int sum_open = 0;
+        int sum_closed = 0;
+        int sum_solution = 0;
+        for(String sgen : sudoku_gen)
+        {
+            SudokuState obj = new SudokuState(2);
+            obj.fromString(sgen);
+            System.out.println(obj.toString());
+            System.out.println("Valid : " + obj.isValid() + "\n");
+            obj.setHFunction(new HeurystykaPusteKomorki());
+            long startTime = System.currentTimeMillis();
+            BestFirstSearch bfs = new BestFirstSearch();
+            bfs.setInitial(obj);
+
+            GraphSearchConfigurator config = new GraphSearchConfigurator();
+            config.setWantedNumberOfSolutions(Integer.MAX_VALUE);
+            //config.setTimeLimit(5000);
+            bfs.setConfigurator(config);
+
+            bfs.execute();
+            long endTime = System.currentTimeMillis();
+            long elapsedTime = endTime - startTime;
+            System.out.println("Time taken: " + elapsedTime + " ms");
+            System.out.println("States in Open set: " + bfs.getOpenSet().size());
+            System.out.println("States in Closed set: " + bfs.getClosedSet().size());
+            System.out.println("Number of solutions: " + bfs.getSolutions().size());
+            System.out.println(bfs.getSolutions());
+            avr_time += elapsedTime;
+            sum_open += bfs.getOpenSet().size();
+            sum_closed += bfs.getClosedSet().size();
+            sum_solution += bfs.getSolutions().size();
+        }
+        System.out.println("Average time taken: " + avr_time/sudoku_gen.length + " ms");
+        System.out.println("Open set sum: " + sum_open);
+        System.out.println("Closed set sum: " + sum_closed);
+        System.out.println("Solution sum: " + sum_solution);
     }
 }
